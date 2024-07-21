@@ -12,9 +12,11 @@ import { Label } from "../ui/Label";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "../ui/ErrorMessage";
 import useAuthenticate from "../../hooks/useAuthenticate";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
+import { Toaster } from "../ui/Toaster";
+import { Loader2 } from "lucide-react";
 
 const Login = () => {
   const {
@@ -22,6 +24,8 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const [loading, setLoading] = useState(false);
 
   const { isAuthenticated, onLogin, onGoogleLoginError, onGoogleLoginSuccess } =
     useAuthenticate();
@@ -33,10 +37,21 @@ const Login = () => {
     }
   }, [isAuthenticated]);
 
+  const handleLogin = async (data: any) => {
+    try {
+      setLoading(true);
+      await onLogin(data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
+      <Toaster />
       <form
-        onSubmit={handleSubmit(onLogin)}
+        onSubmit={handleSubmit(handleLogin)}
         className="flex justify-center items-center h-screen bg-gray-100"
       >
         <div>
@@ -47,7 +62,7 @@ const Login = () => {
             width="800px"
           />
 
-          <Card className="w-[500px] mt-2">
+          <Card className="w-[400px] mt-2">
             <CardHeader>
               <CardTitle>Login</CardTitle>
               <CardDescription>Login to task tracker</CardDescription>
@@ -74,8 +89,14 @@ const Login = () => {
               )}
             </CardContent>
             <CardFooter className="flex justify-between">
-              <Button type="submit" className="w-full">
-                Login
+              <Button disabled={loading} type="submit" className="w-full">
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Hang on...
+                  </>
+                ) : (
+                  "Login"
+                )}
               </Button>
             </CardFooter>
             <CardDescription className="px-6">

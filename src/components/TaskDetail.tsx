@@ -1,5 +1,4 @@
 import { DialogHeader } from "./ui/Dialog";
-import { ICard } from "../types";
 import { Drawer } from "vaul";
 import {
   DrawerClose,
@@ -14,34 +13,70 @@ import { Label } from "./ui/Label";
 import { Input } from "./ui/Input";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { INewTask, ITask } from "../types/type";
+import { editTask } from "../services/ApiService";
+import { useDispatch } from "react-redux";
+import { updateTask } from "../redux/slice/taskSlice";
+import { useToast } from "../hooks/useToast";
+import { Textarea } from "./ui/Textarea";
+import { formatDate } from "../lib/utils";
+import { useNavigate } from "react-router-dom";
+import { ErrorMessage } from "./ui/ErrorMessage";
 
 type Props = {
-  card: ICard;
+  task: ITask;
   mode: "view" | "edit" | "create";
+  setSelectedTask: (bool: any) => void;
 };
 
-const TaskDetail = ({ card, mode }: Props) => {
+const TaskDetail = ({ task, mode, setSelectedTask }: Props) => {
   const [edit, setEdit] = useState(() => mode === "edit");
+  const { toast } = useToast();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ICard>({
+  } = useForm<ITask>({
     defaultValues: {
-      title: card.title,
-      description: card.description,
-      createdAt: card.createdAt,
+      title: task?.title || "",
+      description: task?.description || "",
+      createdAt: task?.createdAt,
+      dueDate: task?.dueDate,
+      taskId: task?.taskId,
     },
   });
+  const dispatch = useDispatch();
 
-  const handleEditProfile = () => {
+  const handleEditProfile = (event: React.MouseEvent) => {
+    // doing this to prevent the form from submitting
+    event.preventDefault();
+    event.stopPropagation();
     if (!edit) {
       setEdit(!edit);
     }
+    return;
   };
 
-  const handleSave = (data: ICard) => {
-    console.log(data);
+  const handleSave = async (data: ITask) => {
+    try {
+      console.log(data);
+      dispatch(updateTask(data));
+      await editTask(task?.taskId, data);
+      setSelectedTask(false);
+      toast({
+        title: "Task Updated",
+        description: "You can now see your updated task in the board",
+      });
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Unable to update task",
+        description: "Please try again",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -52,23 +87,65 @@ const TaskDetail = ({ card, mode }: Props) => {
           <DrawerDescription>Your card details</DrawerDescription>
         </div>
         <div className="flex justify-between gap-2">
-          <Button
-            type={edit ? "submit" : "button"}
-            onClick={() => handleEditProfile()}
-            variant={edit ? "default" : "secondary"}
-          >
-            {edit ? "Save" : "Edit"}
-          </Button>
+          {edit ? (
+            <Button type="submit" variant="default">
+              Save
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              onClick={(e) => handleEditProfile(e)}
+              variant="secondary"
+            >
+              Edit
+            </Button>
+          )}
           <Button variant="destructive">Delete</Button>
         </div>
       </DrawerHeader>
       <div className="px-4">
         <Label>Title</Label>
-        <Input {...register("title")} disabled={!edit} className="mb-2" />
+        <Input
+          {...register("title", {
+            required: true,
+            minLength: 3,
+            maxLength: 20,
+          })}
+          disabled={!edit}
+          className="mb-2"
+        />
+        {errors.title && (
+          <ErrorMessage>
+            {errors.title.type === "required" && "Title is required"}
+            {errors.title.type === "minLength" &&
+              "Title should be at least 3 characters"}
+            {errors.title.type === "maxLength" &&
+              "Title should be at most 20 characters"}
+          </ErrorMessage>
+        )}
         <Label>Description</Label>
-        <Input {...register("description")} disabled={!edit} className="mb-2" />
+        <Textarea
+          rows={5}
+          {...register("description", {
+            required: true,
+            minLength: 3,
+            maxLength: 100,
+          })}
+          disabled={!edit}
+          className="mb-2"
+        />
+        {errors.description && (
+          <ErrorMessage>
+            {errors.description.type === "required" &&
+              "Description is required"}
+            {errors.description.type === "minLength" &&
+              "Description should be at least 3 characters"}
+            {errors.description.type === "maxLength" &&
+              "Description should be at most 100 characters"}
+          </ErrorMessage>
+        )}
         <Label>Created At</Label>
-        <Input value={card.createdAt} disabled className="mb-2" />
+        <Input value={formatDate(task?.createdAt)} disabled className="mb-2" />
       </div>
       <DrawerFooter className="pt-2">
         <DrawerClose asChild>

@@ -7,7 +7,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "../../lib/utils"
 
 const errorMessage = cva(
-  "text-xs font-medium text-red-500 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+  "text-xs block font-medium text-red-500 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
 )
 
 const ErrorMessage = React.forwardRef<

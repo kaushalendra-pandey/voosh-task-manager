@@ -1,9 +1,10 @@
 export interface ICard {
-    cardId: string;
+    taskId: string;
     title: string;
     description: string;
     createdAt: string;
-    type: ICardType;
+    boardId: string,
+    dueDate: string;
 }
 
 export enum ICardType {
