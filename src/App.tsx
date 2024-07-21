@@ -3,6 +3,8 @@ import "./App.css";
 import { ICard, ICardType, IDraggable } from "./types";
 import Board from "./components/ui/Board";
 import { DragDropContext } from "react-beautiful-dnd";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 const TodoCards: ICard[] = [
   {
@@ -123,15 +125,17 @@ const onDragEnd = (result: any) => {
 
 function App() {
   return (
-    <Layout>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex flex-col md:flex-row space-x-0 md:space-x-4 w-full">
-          <Board title="Todo" cards={TodoCards} />
-          <Board title="In Progress" cards={InProgressCard} />
-          <Board title="Done Card" cards={DoneCard} />
-        </div>
-      </DragDropContext>
-    </Layout>
+    <Provider store={store}>
+      <Layout>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <div className="flex flex-col md:flex-row space-x-0 md:space-x-4 w-full">
+            <Board title="Todo" cards={TodoCards} />
+            <Board title="In Progress" cards={InProgressCard} />
+            <Board title="Done Card" cards={DoneCard} />
+          </div>
+        </DragDropContext>
+      </Layout>
+    </Provider>
   );
 }
 

@@ -46,21 +46,21 @@ const Login = () => {
             size="large"
             width="800px"
           />
-        
+
           <Card className="w-[500px] mt-2">
             <CardHeader>
               <CardTitle>Login</CardTitle>
               <CardDescription>Login to task tracker</CardDescription>
             </CardHeader>
             <CardContent>
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
-                {...register("name", {
+                {...register("email", {
                   required: true,
                 })}
                 className="mb-2"
               />
-              {errors.name && <ErrorMessage>Name is required</ErrorMessage>}
+              {errors.name && <ErrorMessage>Email is Required</ErrorMessage>}
               <br />
               <Label htmlFor="password">Password</Label>
               <Input
