@@ -1,46 +1,93 @@
-# Getting Started with Create React App
+Screenshots:
+Home Page:
+<img width="1504" alt="image" src="https://github.com/user-attachments/assets/c94cdea5-6894-48f5-a80a-00080aa79892">
+Create a new task
+<img width="1504" alt="image" src="https://github.com/user-attachments/assets/9839aab4-4bf6-449f-b0a7-cc6fec188b99">
+Edit your task
+<img width="1504" alt="image" src="https://github.com/user-attachments/assets/25ba4f5d-8969-406a-8827-d42e4e8e5698">
+Delete your task
+<img width="1504" alt="image" src="https://github.com/user-attachments/assets/7d6e5a94-6f7a-4b31-a46c-60f21696a1d4">
+Search your tasks:
+<img width="1504" alt="image" src="https://github.com/user-attachments/assets/8e780b2e-cb47-4f17-8d1f-ed78ebf5ef37">
+Sorting:
+<img width="1504" alt="image" src="https://github.com/user-attachments/assets/a4433141-d437-4654-9a0c-4447d4d1beb4">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Tech Stack:
+* REACT
+* Node/Express
+* MongoDB
+* ShadCN/Tailwind
 
-## Available Scripts
+## Tools Used:
+* Postman
+* VS Code
 
-In the project directory, you can run:
+## Routes:
+The routes are shown in the image below:
 
-### `npm start`
+<img width="562" alt="image" src="https://github.com/user-attachments/assets/097f6dcf-310b-4c9e-a9bc-da618b9d3414">
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Features:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Keep Track of:
+*    Pending tasks
+*    Completed tasks
+*    Plan your day
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Just update every transaction you do at Fintrack and know where your money is.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Schema
+Structure of our schema is as follows:
+<img width="838" alt="image" src="https://github.com/user-attachments/assets/d98493ec-4895-46cf-bf50-de54cd395ae3">
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Folder Structure
+        -src
+            - components
+              - auth
+              - pages
+              - ui
+            - redux
+              -slice
+            - hooks
+            - libs
+            - services
+            - types
+            
 
-### `npm run eject`
+## Styling
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The styling is done using ShadCN and tailwind.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Dependencies
+**shadcn**: For UI components
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**react-date-picker**: For date picker component
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+**react-beautiful-dnd** - For drad and drop
 
-## Learn More
+**axios** - For making api calls
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Scripts:
+
+### For voosh-task-manager:
+1. **npm i or npm install** : For installing all the dependencies.
+2. **npm start** : Will run the app on localhost:3000
+
+### For task-manager-server:
+1. **npm i** : For installing all the dependencies.
+2. **npm run start** : Will run the server on localhost:3000
+3. **npm run test** : Will run the tests.
+
+## Future scops:
+Allowing user to create account , add user and tag user. Push notifications when card moves from one board to another.
+    
+
+
+
+
+
+
