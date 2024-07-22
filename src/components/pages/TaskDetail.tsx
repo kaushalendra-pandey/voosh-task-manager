@@ -20,6 +20,7 @@ import { formatDate } from "../../lib/utils";
 import { useNavigate } from "react-router-dom";
 import { ErrorMessage } from "../ui/ErrorMessage";
 import DatePicker from "react-datepicker";
+import { CalendarArrowDown } from "lucide-react";
 
 type Props = {
   task: ITask;
@@ -155,6 +156,8 @@ const TaskDetail = ({ task, mode, setSelectedTask }: Props) => {
           minDate={new Date()}
           //@ts-ignore
           onChange={(date) => setDueDate(date)}
+          showIcon={true}
+          icon={<CalendarArrowDown size={12} />}
         />
       </div>
       <DrawerFooter className="pt-2">

@@ -74,3 +74,14 @@
   padding: 9px !important;
   border-radius: 6px !important;
 }
+
+.react-datepicker__view-calendar-icon input {
+  &:focus-visible {
+    outline: none !important;
+    border: none !important;
+  }
+}
+
+.react-datepicker__input-container .react-datepicker__calendar-icon {
+  padding : 10px 5px !important;
+}

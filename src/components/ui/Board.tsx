@@ -112,7 +112,7 @@ const Board = ({
             setCreateTask(false);
           }}
         >
-          <DrawerContent className="top-0 right-0 left-auto mt-0 w-[500px] rounded-none">
+          <DrawerContent className="top-0 right-0 left-auto mt-0 rounded-none w-[400px] md:w-[450px] lg:[500]">
             {/* <Details open={open} setOpen={setOpen}> */}
             <TaskCreate
               setCreateTask={setCreateTask}

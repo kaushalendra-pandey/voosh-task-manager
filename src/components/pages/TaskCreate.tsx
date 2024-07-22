@@ -23,6 +23,7 @@ import { ErrorMessage } from "../ui/ErrorMessage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
+import { CalendarArrowDown } from "lucide-react";
 
 type Props = {
   task: INewTask;
@@ -130,6 +131,8 @@ const TaskCreate = ({ task, boardId, userId, setCreateTask, title }: Props) => {
           minDate={new Date()}
           //@ts-ignore
           onChange={(date) => setDueDate(date)}
+          icon={<CalendarArrowDown size={12} />}
+          showIcon={true}
         />
 
         <DrawerFooter className="mt-4">
