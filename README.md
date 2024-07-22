@@ -12,6 +12,9 @@ Search your tasks:
 Sorting:
 <img width="1504" alt="image" src="https://github.com/user-attachments/assets/a4433141-d437-4654-9a0c-4447d4d1beb4">
 
+## Video Demo
+https://www.loom.com/share/cabdfdeaa9ca4dd098fa6c4d92c528c2?sid=e0a88ebf-ae20-4600-bb36-84dd6584e187
+
 ## Tech Stack:
 * REACT
 * Node/Express
