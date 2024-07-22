@@ -93,8 +93,8 @@ const Layout = ({ children }: Props) => {
       >
         {/* Add a logo to left */}
         <div className="text-xl flex gap-2 items-center">
-          <Avatar>
-            {/* @ts-ignore */}
+          <Avatar>       
+            {/* @ts-ignore */}       
             <AvatarImage src={decodedToken?.profileImg || "https://github.com/shadcn.png"} />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
