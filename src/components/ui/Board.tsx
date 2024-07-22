@@ -77,23 +77,27 @@ const Board = ({
               }}
               className="md:overflow-auto text-white p-2 mb-2"
             >
-              {filteredTasks.map((task: ITask, index: number) => (
-                <Draggable
-                  key={task.taskId}
-                  draggableId={task.taskId}
-                  index={index}
-                >
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <TaskCard task={task} index={index} />
-                    </div>
-                  )}
-                </Draggable>
-              ))}
+              {filteredTasks.length === 0 ? (
+                <div className="text-center text-gray-500">No tasks found</div>
+              ) : (
+                filteredTasks.map((task: ITask, index: number) => (
+                  <Draggable
+                    key={task.taskId}
+                    draggableId={task.taskId}
+                    index={index}
+                  >
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <TaskCard task={task} index={index} />
+                      </div>
+                    )}
+                  </Draggable>
+                ))
+              )}
             </div>
 
             {provided.placeholder}
