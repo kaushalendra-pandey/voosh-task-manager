@@ -17,6 +17,8 @@ import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { Toaster } from "../ui/Toaster";
 import { Loader2 } from "lucide-react";
+import { set } from "date-fns";
+import { toast } from "../../hooks/useToast";
 
 const Login = () => {
   const {
@@ -42,8 +44,12 @@ const Login = () => {
       setLoading(true);
       await onLogin(data);
       setLoading(false);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      toast({
+        title: "Login Failed",
+        description: error?.data?.message || "Something went wrong",
+      });
+      setLoading(false);
     }
   };
 

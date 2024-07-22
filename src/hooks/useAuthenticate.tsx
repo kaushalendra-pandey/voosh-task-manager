@@ -29,12 +29,7 @@ const useAuthenticate = () => {
       });
       navigate("/dashboard");
     } catch (error: any) {
-      console.error(error);
-      toast({
-        variant: "destructive",
-        title: "Unable to login",
-        description: error.data.message,
-      });
+      throw error;
     }
   };
   const onSignup = async (data: ISignupDTO) => {
@@ -49,12 +44,7 @@ const useAuthenticate = () => {
         description: "May you never miss a deadline again",
       });
     } catch (error: any) {
-      console.error(error);
-      toast({
-        variant: "destructive",
-        title: "Unable to signup",
-        description: error.data.message,
-      });
+      throw error;
     }
   };
   const onLogut = () => {
@@ -64,7 +54,6 @@ const useAuthenticate = () => {
     navigate("/login");
   };
   const onGoogleLoginSuccess = async (data: CredentialResponse) => {
-    console.log(data);
     const res = await loginWithGoogle(data);
     //@ts-ignore
     localStorage.setItem("at", res.at);
@@ -73,10 +62,14 @@ const useAuthenticate = () => {
       title: "Welcome back!",
     });
     navigate("/dashboard");
-    console.log(res);
   };
   const onGoogleLoginError = () => {
     console.log("error");
+    toast({
+      variant: "default",
+      title: "Error",
+      description: "An error occured while logging in",
+    });
   };
 
   return {

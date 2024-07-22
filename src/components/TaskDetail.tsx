@@ -1,8 +1,5 @@
-import { DialogHeader } from "./ui/Dialog";
-import { Drawer } from "vaul";
 import {
   DrawerClose,
-  DrawerContent,
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
@@ -13,7 +10,7 @@ import { Label } from "./ui/Label";
 import { Input } from "./ui/Input";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { INewTask, ITask } from "../types/type";
+import {  ITask } from "../types/type";
 import { editTask } from "../services/ApiService";
 import { useDispatch } from "react-redux";
 import { updateTask } from "../redux/slice/taskSlice";
@@ -22,6 +19,7 @@ import { Textarea } from "./ui/Textarea";
 import { formatDate } from "../lib/utils";
 import { useNavigate } from "react-router-dom";
 import { ErrorMessage } from "./ui/ErrorMessage";
+import DatePicker from "react-datepicker";
 
 type Props = {
   task: ITask;
@@ -31,6 +29,9 @@ type Props = {
 
 const TaskDetail = ({ task, mode, setSelectedTask }: Props) => {
   const [edit, setEdit] = useState(() => mode === "edit");
+  const [dueDate, setDueDate] = useState(() => {
+    return new Date(task.dueDate);
+  });
   const { toast } = useToast();
   const navigate = useNavigate();
   const {
@@ -60,7 +61,7 @@ const TaskDetail = ({ task, mode, setSelectedTask }: Props) => {
 
   const handleSave = async (data: ITask) => {
     try {
-      console.log(data);
+      data.dueDate = dueDate.toISOString();
       dispatch(updateTask(data));
       await editTask(task?.taskId, data);
       setSelectedTask(false);
@@ -70,7 +71,6 @@ const TaskDetail = ({ task, mode, setSelectedTask }: Props) => {
       });
       navigate("/dashboard");
     } catch (error) {
-      console.log(error);
       toast({
         title: "Unable to update task",
         description: "Please try again",
@@ -109,7 +109,7 @@ const TaskDetail = ({ task, mode, setSelectedTask }: Props) => {
           {...register("title", {
             required: true,
             minLength: 3,
-            maxLength: 20,
+            maxLength: 30,
           })}
           disabled={!edit}
           className="mb-2"
@@ -129,7 +129,7 @@ const TaskDetail = ({ task, mode, setSelectedTask }: Props) => {
           {...register("description", {
             required: true,
             minLength: 3,
-            maxLength: 100,
+            maxLength: 400,
           })}
           disabled={!edit}
           className="mb-2"
@@ -146,6 +146,16 @@ const TaskDetail = ({ task, mode, setSelectedTask }: Props) => {
         )}
         <Label>Created At</Label>
         <Input value={formatDate(task?.createdAt)} disabled className="mb-2" />
+        <Label>Due Date</Label>
+
+        <DatePicker
+          selected={dueDate}
+          disabled={!edit}
+          // set mini date to today
+          minDate={new Date()}
+          //@ts-ignore
+          onChange={(date) => setDueDate(date)}
+        />
       </div>
       <DrawerFooter className="pt-2">
         <DrawerClose asChild>

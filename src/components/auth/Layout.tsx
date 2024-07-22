@@ -9,6 +9,8 @@ import { initTask } from "../../redux/slice/taskSlice";
 import { useJwt } from "react-jwt";
 import { setLoading } from "../../redux/slice/appSlice";
 import { Toaster } from "../ui/Toaster";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/Avatar";
+import { useToast } from "../../hooks/useToast";
 
 type Props = {
   children: React.ReactNode;
@@ -25,12 +27,28 @@ const Layout = ({ children }: Props) => {
   const { isAuthenticated, onLogut } = useAuthenticate();
   const { decodedToken } = useJwt(localStorage.getItem("at") || "");
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/login");
     }
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    const eventSource = new EventSource(
+      //@ts-ignore
+      `http://localhost:3000/events?userId=${decodedToken?.userId || ""}`
+    );
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }, []);
 
   const fetchUserDetails = async (userId: string) => {
     try {
@@ -39,9 +57,25 @@ const Layout = ({ children }: Props) => {
       dispatch(initTask(userId));
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      toast({
+        title: "Error",
+        description: "An error occured while fetching user details",
+      });
+
     }
   };
+
+  useEffect(() => {
+    const eventSource = new EventSource("http://localhost:3000/events");
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }, []);
 
   useEffect(() => {
     //@ts-ignore
@@ -58,8 +92,15 @@ const Layout = ({ children }: Props) => {
         -between px-4"
       >
         {/* Add a logo to left */}
-        <div className="text-xl">
-          <AirplayIcon size={24} />
+        <div className="text-xl flex gap-2 items-center">
+          <Avatar>
+            {/* @ts-ignore */}
+            <AvatarImage src={decodedToken?.profileImg || "https://github.com/shadcn.png"} />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+          {/* @ts-ignore */}
+          <div>{decodedToken?.name || "Task Tracker"}</div>
+          
         </div>
         {/* Add a logout button to right */}
         <div>

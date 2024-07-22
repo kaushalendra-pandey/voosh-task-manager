@@ -21,6 +21,7 @@ export interface IUser {
   name: string;
   email: string;
   userId: string;
+  profileImg ?: string;
 }
 
 export interface IErrorResponse {
@@ -40,4 +41,11 @@ export interface ISignupDTO {
   email: string;
   password: string;
   confirmPassword: string;
+}
+
+export enum SortType {
+  CREATED_AT_ASC = "createdAt-asc",
+  CREATED_AT_DESC = "createdAt-desc",
+  DUE_DATE_ASC = "dueDate-asc",
+  DUE_DATE_DESC = "dueDate-desc",
 }

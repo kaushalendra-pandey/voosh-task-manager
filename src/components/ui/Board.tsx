@@ -4,8 +4,8 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { DrawerContent, Drawer as ShadcnDrawer } from "./Drawer";
-import { ITask } from "../../types/type";
-import { getDefaultCard } from "../../lib/utils";
+import { ITask, SortType } from "../../types/type";
+import { getDefaultCard, handleSort } from "../../lib/utils";
 import TaskCreate from "../TaskCreate";
 import useManager from "../../hooks/useManager";
 
@@ -13,9 +13,15 @@ type Props = {
   title: string;
   boardId: string;
   searchQuery?: string;
+  sort?: SortType;
 };
 
-const Board = ({ title, boardId, searchQuery }: Props) => {
+const Board = ({
+  title,
+  boardId,
+  searchQuery,
+  sort = SortType.CREATED_AT_DESC,
+}: Props) => {
   const [createTask, setCreateTask] = React.useState(false);
   const { getTasksByBoardId, user } = useManager();
   const { register, handleSubmit } = useForm({
@@ -36,12 +42,18 @@ const Board = ({ title, boardId, searchQuery }: Props) => {
   };
 
   // filter tasks by search query
-  const filteredTasks = tasks.filter((task: ITask) => {
-    if (!searchQuery) {
-      return task;
-    }
-    return task.title.toLowerCase().includes(searchQuery?.toLowerCase());
-  });
+  let filteredTasks = tasks;
+
+  if (searchQuery) {
+    let lowerCaseSearchQuery = searchQuery.toLowerCase();
+    filteredTasks = filteredTasks.filter((task: ITask) => {
+      return task.title.toLowerCase().includes(lowerCaseSearchQuery);
+    });
+  }
+
+  if (sort) {
+    filteredTasks = handleSort(filteredTasks, sort);
+  }
 
   return (
     <>
@@ -50,7 +62,7 @@ const Board = ({ title, boardId, searchQuery }: Props) => {
           <div
             {...provided.droppableProps}
             ref={provided.innerRef}
-            className="w-full flex flex-col border border-gray-200 border-2 rounded-md md:overflow-auto"
+            className="w-full flex flex-col border rounded-xs md:overflow-auto"
           >
             <div className="bg-gray-100 border-b border-gray-200 text-black text-sm font-semibold border p-2 mb-2">
               {title} - {tasks.length}

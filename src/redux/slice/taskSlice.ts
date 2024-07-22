@@ -50,6 +50,7 @@ export const taskSlice = createSlice({
       if (index !== -1) {
         state.tasks[index].title = action.payload.title;
         state.tasks[index].description = action.payload.description;
+        state.tasks[index].dueDate = action.payload.dueDate
       }
     },
     localMoveTask: (

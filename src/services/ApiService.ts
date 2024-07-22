@@ -11,8 +11,8 @@ export const getUserInfo = async (
   } catch (error: any) {
     return {
       message: error.message,
-      status: error.response.status,
-      data: error.response.data,
+      status: error.response?.status || 500,
+      data: error.response?.data || {},
     };
   }
 };
@@ -26,8 +26,8 @@ export const loginUser = async (
   } catch (error: any) {
     throw {
       message: error.message,
-      status: error.response.status,
-      data: error.response.data,
+      status: error.response?.status || 500,
+      data: error.response?.data || {},
     };
   }
 };
@@ -41,11 +41,11 @@ export const loginWithGoogle = async (
   } catch (error: any) {
     throw {
       message: error.message,
-      status: error.response.status,
-      data: error.response.data,
+      status: error.response?.status || 500,
+      data: error.response?.data || {},
     };
   }
-}
+};
 
 export const signupUser = async (
   data: any
@@ -54,14 +54,13 @@ export const signupUser = async (
     const res = await axiosInstance.post(`/auth/signup`, data);
     return res.data;
   } catch (error: any) {
-    console.log(error);
-    throw  {
+    throw {
       message: error.message,
-      status: error.response.status,
-      data: error.response.data,
+      status: error.response?.status || 500,
+      data: error.response?.data || {},
     };
   }
-}
+};
 
 export const createTask = async (
   data: INewTask
@@ -72,8 +71,8 @@ export const createTask = async (
   } catch (error: any) {
     throw {
       message: error.message,
-      status: error.response.status,
-      data: error.response.data,
+      status: error.response?.status || 500,
+      data: error.response?.data || {},
     };
   }
 };
@@ -91,39 +90,39 @@ export const moveTask = async ({
   } catch (error: any) {
     throw {
       message: error.message,
-      status: error.response.status,
-      data: error.response.data,
+      status: error.response?.status || 500,
+      data: error.response?.data || {},
     };
   }
 };
 
 export const deleteTask = async (
-    taskId: string
-    ): Promise<any | IErrorResponse> => {
-    try {
-        const res = await axiosInstance.delete(`/task/${taskId}`);
-        return res.data;
-    } catch (error: any) {
-        throw {
-        message: error.message,
-        status: error.response.status,
-        data: error.response.data,
-        };
-    }
-}
+  taskId: string
+): Promise<any | IErrorResponse> => {
+  try {
+    const res = await axiosInstance.delete(`/task/${taskId}`);
+    return res.data;
+  } catch (error: any) {
+    throw {
+      message: error.message,
+      status: error.response?.status || 500,
+      data: error.response?.data || {},
+    };
+  }
+};
 
 export const editTask = async (
-    taskId: string,
-    data: INewTask
-    ): Promise<any | IErrorResponse> => {
-    try {
-        const res = await axiosInstance.put(`/task/${taskId}`, data);
-        return res.data;
-    } catch (error: any) {
-        throw {
-        message: error.message,
-        status: error.response.status,
-        data: error.response.data,
-        };
-    }
-}
+  taskId: string,
+  data: INewTask
+): Promise<any | IErrorResponse> => {
+  try {
+    const res = await axiosInstance.put(`/task/${taskId}`, data);
+    return res.data;
+  } catch (error: any) {
+    throw {
+      message: error.message,
+      status: error.response?.status || 500,
+      data: error.response?.data || {},
+    };
+  }
+};

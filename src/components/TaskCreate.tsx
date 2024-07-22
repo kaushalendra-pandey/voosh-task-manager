@@ -18,6 +18,11 @@ import { createTask } from "../services/ApiService";
 import { useDispatch } from "react-redux";
 import { addTask, initTask } from "../redux/slice/taskSlice";
 import { useToast } from "../hooks/useToast";
+import { Textarea } from "./ui/Textarea";
+import { ErrorMessage } from "./ui/ErrorMessage";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useState } from "react";
 
 type Props = {
   task: INewTask;
@@ -39,14 +44,15 @@ const TaskCreate = ({ task, boardId, userId, setCreateTask }: Props) => {
       boardId,
     },
   });
+  const [dueDate, setDueDate] = useState(new Date());
 
-  const {toast} = useToast();
+  const { toast } = useToast();
 
   const dispatch = useDispatch();
 
   const handleSave = async (data: INewTask) => {
     try {
-      console.log(data);
+      data.dueDate = dueDate.toISOString();
       const newTask = createNewTask(data, userId, boardId);
       await createTask(newTask);
       //@ts-ignore
@@ -56,8 +62,7 @@ const TaskCreate = ({ task, boardId, userId, setCreateTask }: Props) => {
         title: "New Task Created",
         description: "You can now see your task in the board",
       });
-    } catch (error:any) {
-      console.log(error);
+    } catch (error: any) {
       toast({
         title: "Unable to create task",
         description: error.data.message,
@@ -80,15 +85,58 @@ const TaskCreate = ({ task, boardId, userId, setCreateTask }: Props) => {
       </DrawerHeader>
       <div className="px-4">
         <Label>Title</Label>
-        <Input {...register("title")} className="mb-2" />
+        <Input
+          {...register("title", {
+            required: true,
+            minLength: 3,
+            maxLength: 30,
+          })}
+          className="mb-2"
+        />
+        {errors.title && (
+          <ErrorMessage>
+            {errors.title.type === "required" && "Title is required"}
+            {errors.title.type === "minLength" &&
+              "Title should be at least 3 characters"}
+            {errors.title.type === "maxLength" &&
+              "Title should be at most 20 characters"}
+          </ErrorMessage>
+        )}
         <Label>Description</Label>
-        <Input {...register("description")} className="mb-2" />
+        <Textarea
+          {...register("description", {
+            required: true,
+            minLength: 3,
+            maxLength: 400,
+          })}
+          className="mb-2"
+        />
+        {errors.description && (
+          <ErrorMessage>
+            {errors.description.type === "required" &&
+              "Description is required"}
+            {errors.description.type === "minLength" &&
+              "Description should be at least 3 characters"}
+            {errors.description.type === "maxLength" &&
+              "Description should be at most 100 characters"}
+          </ErrorMessage>
+        )}
+        <Label>Due Date</Label>
+
+        <DatePicker
+          selected={dueDate}
+          // set mini date to today
+          minDate={new Date()}
+          //@ts-ignore
+          onChange={(date) => setDueDate(date)}
+        />
+
+        <DrawerFooter className="mt-4">
+          <DrawerClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DrawerClose>
+        </DrawerFooter>
       </div>
-      <DrawerFooter className="pt-2">
-        <DrawerClose asChild>
-          <Button variant="outline">Cancel</Button>
-        </DrawerClose>
-      </DrawerFooter>
     </form>
   );
 };

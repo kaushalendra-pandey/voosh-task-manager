@@ -6,18 +6,10 @@ import {
   CardContent,
   CardFooter,
 } from "./ui/Card";
-import { ICard, ICardType } from "../types";
 import { Button } from "./ui/Button";
 import TaskDetail from "./TaskDetail";
 import { DrawerContent, Drawer as ShadcnDrawer } from "./ui/Drawer";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-} from "./ui/Dialog";
 import { useState } from "react";
-import { DialogHeader, DialogFooter } from "./ui/Dialog";
 import DeleteConfirmation from "./DeleteConfirmation";
 import { useNavigate } from "react-router-dom";
 import { ITask } from "../types/type";
@@ -28,13 +20,11 @@ import { formatDate } from "../lib/utils";
 import {
   AlertTriangle,
   Calendar,
-  CircleAlert,
-  DeleteIcon,
   Edit,
   Info,
   Trash2,
-  View,
 } from "lucide-react";
+import {  useToast } from "../hooks/useToast";
 
 type Props = {
   task: ITask;
@@ -75,6 +65,7 @@ const TaskCard = ({ task, index }: Props) => {
     }
   });
   const [deleteCard, setDeleteCard] = useState<boolean>(false);
+  const {toast} = useToast();
   const navigate = useNavigate();
 
   const cardClass = "bg-gradient-to-r from-green-400 to-green-600";
@@ -98,7 +89,11 @@ const TaskCard = ({ task, index }: Props) => {
       dispatch(localDeleteTask(taskId));
       await deleteTask(taskId);
     } catch (error) {
-      console.log(error);
+      toast({
+        title: "Unable to delete task",
+        description: "Please try again",
+        variant: "destructive",
+      });
     }
   };
   return (
@@ -106,22 +101,30 @@ const TaskCard = ({ task, index }: Props) => {
       <div>
         <Card
           // add background color with some nice gradient based on cardType
-          className={`${cardClass} mb-4`}
+          className={`mb-4 p-2`}
         >
-          <CardHeader>
+          <CardHeader className="p-2">
             <CardTitle>{task.title}</CardTitle>
             <CardDescription>{task.description}</CardDescription>
           </CardHeader>
-          <CardContent>Created At: {formatDate(task.createdAt)}</CardContent>
+          <CardContent className="flex justify-between p-2">
+              <div className="border border-sm border-black rounded-sm px-2 pb-1">
+                <Calendar className='inline-block' size={14}/> <span className="text-xs font-semibold"> {formatDate(task.createdAt)} </span>
+              </div>
+              <div className="border border-sm border-red-600 rounded-sm px-2 pb-1">
+                <AlertTriangle color="red" className='inline-block' size={14}/> <span className="text-xs text-red-600 font-semibold"> {formatDate(task.dueDate)} </span>
+              </div>
+          </CardContent>
+          
           <CardFooter
-            className="gap-4 flex justify-end"
+            className="gap-1 flex justify-end p-2"
             // add some padding to the footer
           >
             <Button
               onClick={() => {
                 handleView(task);
               }}
-              variant="outline"
+              variant="ghost"
               size="icon"
             >
               <Info size={16} />
@@ -130,7 +133,7 @@ const TaskCard = ({ task, index }: Props) => {
               onClick={() => {
                 handleEdit(task);
               }}
-              variant="outline"
+              variant="ghost"
               size="icon"
             >
               <Edit size={16} />
@@ -139,7 +142,7 @@ const TaskCard = ({ task, index }: Props) => {
               onClick={() => {
                 setDeleteCard(true);
               }}
-              variant="outline"
+              variant="ghost"
               size={"icon"}
             >
               <Trash2 size={16} />
