@@ -5,26 +5,20 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from "./ui/Card";
-import { Button } from "./ui/Button";
+} from "../ui/Card";
+import { Button } from "../ui/Button";
 import TaskDetail from "./TaskDetail";
-import { DrawerContent, Drawer as ShadcnDrawer } from "./ui/Drawer";
+import { DrawerContent, Drawer as ShadcnDrawer } from "../ui/Drawer";
 import { useState } from "react";
-import DeleteConfirmation from "./DeleteConfirmation";
+import DeleteConfirmation from "../ui/DeleteConfirmation";
 import { useNavigate } from "react-router-dom";
-import { ITask } from "../types/type";
+import { ITask } from "../../types/type";
 import { useDispatch } from "react-redux";
-import { deleteTask } from "../services/ApiService";
-import { localDeleteTask } from "../redux/slice/taskSlice";
-import { formatDate } from "../lib/utils";
-import {
-  AlertTriangle,
-  Calendar,
-  Edit,
-  Info,
-  Trash2,
-} from "lucide-react";
-import {  useToast } from "../hooks/useToast";
+import { deleteTask } from "../../services/ApiService";
+import { localDeleteTask } from "../../redux/slice/taskSlice";
+import { formatDate } from "../../lib/utils";
+import { AlertTriangle, Calendar, Edit, Info, Trash2 } from "lucide-react";
+import { useToast } from "../../hooks/useToast";
 
 type Props = {
   task: ITask;
@@ -65,7 +59,7 @@ const TaskCard = ({ task, index }: Props) => {
     }
   });
   const [deleteCard, setDeleteCard] = useState<boolean>(false);
-  const {toast} = useToast();
+  const { toast } = useToast();
   const navigate = useNavigate();
 
   const cardClass = "bg-gradient-to-r from-green-400 to-green-600";
@@ -108,14 +102,22 @@ const TaskCard = ({ task, index }: Props) => {
             <CardDescription>{task.description}</CardDescription>
           </CardHeader>
           <CardContent className="flex justify-between p-2">
-              <div className="border border-sm border-black rounded-sm px-2 pb-1">
-                <Calendar className='inline-block' size={14}/> <span className="text-xs font-semibold"> {formatDate(task.createdAt)} </span>
-              </div>
-              <div className="border border-sm border-red-600 rounded-sm px-2 pb-1">
-                <AlertTriangle color="red" className='inline-block' size={14}/> <span className="text-xs text-red-600 font-semibold"> {formatDate(task.dueDate)} </span>
-              </div>
+            <div className="border border-sm border-black rounded-sm px-2 pb-1">
+              <Calendar className="inline-block" size={14} />{" "}
+              <span className="text-xs font-semibold">
+                {" "}
+                {formatDate(task.createdAt)}{" "}
+              </span>
+            </div>
+            <div className="border border-sm border-red-600 rounded-sm px-2 pb-1">
+              <AlertTriangle color="red" className="inline-block" size={14} />{" "}
+              <span className="text-xs text-red-600 font-semibold">
+                {" "}
+                {formatDate(task.dueDate)}{" "}
+              </span>
+            </div>
           </CardContent>
-          
+
           <CardFooter
             className="gap-1 flex justify-end p-2"
             // add some padding to the footer

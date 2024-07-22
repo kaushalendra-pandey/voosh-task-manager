@@ -4,21 +4,21 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "./ui/Drawer";
-import { Button } from "./ui/Button";
-import { Label } from "./ui/Label";
-import { Input } from "./ui/Input";
+} from "../ui/Drawer";
+import { Button } from "../ui/Button";
+import { Label } from "../ui/Label";
+import { Input } from "../ui/Input";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import {  ITask } from "../types/type";
-import { editTask } from "../services/ApiService";
+import { ITask } from "../../types/type";
+import { editTask } from "../../services/ApiService";
 import { useDispatch } from "react-redux";
-import { updateTask } from "../redux/slice/taskSlice";
-import { useToast } from "../hooks/useToast";
-import { Textarea } from "./ui/Textarea";
-import { formatDate } from "../lib/utils";
+import { updateTask } from "../../redux/slice/taskSlice";
+import { useToast } from "../../hooks/useToast";
+import { Textarea } from "../ui/Textarea";
+import { formatDate } from "../../lib/utils";
 import { useNavigate } from "react-router-dom";
-import { ErrorMessage } from "./ui/ErrorMessage";
+import { ErrorMessage } from "../ui/ErrorMessage";
 import DatePicker from "react-datepicker";
 
 type Props = {

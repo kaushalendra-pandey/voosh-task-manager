@@ -1,25 +1,25 @@
-import { ICard } from "../types";
+import { ICard } from "../../types";
 import {
   DrawerClose,
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "./ui/Drawer";
-import { Button } from "./ui/Button";
-import { Label } from "./ui/Label";
-import { Input } from "./ui/Input";
+} from "../ui/Drawer";
+import { Button } from "../ui/Button";
+import { Label } from "../ui/Label";
+import { Input } from "../ui/Input";
 import { useForm } from "react-hook-form";
-import { INewTask, ITask } from "../types/type";
+import { INewTask, ITask } from "../../types/type";
 import { setDate } from "date-fns";
-import { Calendar } from "./ui/Calendar";
-import { createNewTask } from "../lib/utils";
-import { createTask } from "../services/ApiService";
+import { Calendar } from "../ui/Calendar";
+import { createNewTask } from "../../lib/utils";
+import { createTask } from "../../services/ApiService";
 import { useDispatch } from "react-redux";
-import { addTask, initTask } from "../redux/slice/taskSlice";
-import { useToast } from "../hooks/useToast";
-import { Textarea } from "./ui/Textarea";
-import { ErrorMessage } from "./ui/ErrorMessage";
+import { addTask, initTask } from "../../redux/slice/taskSlice";
+import { useToast } from "../../hooks/useToast";
+import { Textarea } from "../ui/Textarea";
+import { ErrorMessage } from "../ui/ErrorMessage";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
@@ -29,9 +29,10 @@ type Props = {
   boardId: string;
   userId: string;
   setCreateTask: (bool: any) => void;
+  title: string;
 };
 
-const TaskCreate = ({ task, boardId, userId, setCreateTask }: Props) => {
+const TaskCreate = ({ task, boardId, userId, setCreateTask, title }: Props) => {
   const {
     register,
     handleSubmit,
@@ -75,7 +76,7 @@ const TaskCreate = ({ task, boardId, userId, setCreateTask }: Props) => {
       <DrawerHeader className="text-left flex justify-between">
         <div>
           <DrawerTitle>Card Details</DrawerTitle>
-          <DrawerDescription>Your card details</DrawerDescription>
+          <DrawerDescription>Creating card for - {title}</DrawerDescription>
         </div>
         <div className="flex justify-between gap-2">
           <Button type="submit" variant="default">

@@ -3,9 +3,9 @@ import {
   DialogContent,
   DialogTitle,
   DialogDescription,
-} from "./ui/Dialog";
-import { Button } from "./ui/Button";
-import { DialogHeader, DialogFooter } from "./ui/Dialog";
+} from "./Dialog";
+import { Button } from "./Button";
+import { DialogHeader, DialogFooter } from "./Dialog";
 
 type Props = {
   onOpenChange: (par: boolean) => void;

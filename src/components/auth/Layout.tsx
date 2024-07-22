@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "../ui/Button";
-import { AirplayIcon, Moon, Sun } from "lucide-react";
+import { AirplayIcon, Loader, Moon, Sun } from "lucide-react";
 import { DragDropContext } from "react-beautiful-dnd";
 import useAuthenticate from "../../hooks/useAuthenticate";
 import { useNavigate } from "react-router-dom";
@@ -115,7 +115,9 @@ const Layout = ({ children }: Props) => {
             <div className="text-center">
               <Sun size={32} />
             </div>
-            <div className="text-center">Loading...</div>
+            <div className="text-center">
+              <Loader className="animate-spin" size={32} />
+            </div>
           </div>
         </div>
       ) : (

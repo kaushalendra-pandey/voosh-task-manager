@@ -1,12 +1,12 @@
 import React from "react";
-import TaskCard from "../TaskCard";
+import TaskCard from "../pages/TaskCard";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { DrawerContent, Drawer as ShadcnDrawer } from "./Drawer";
 import { ITask, SortType } from "../../types/type";
 import { getDefaultCard, handleSort } from "../../lib/utils";
-import TaskCreate from "../TaskCreate";
+import TaskCreate from "../pages/TaskCreate";
 import useManager from "../../hooks/useManager";
 
 type Props = {
@@ -115,6 +115,7 @@ const Board = ({
               userId={user.userId}
               boardId={boardId}
               task={getDefaultCard()}
+              title={title}
             />
             {/* </Details> */}
           </DrawerContent>

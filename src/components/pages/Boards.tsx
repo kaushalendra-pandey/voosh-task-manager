@@ -1,14 +1,18 @@
 import React, { useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
-import Board from "./ui/Board";
-import useManager from "../hooks/useManager";
-import { moveTask } from "../services/ApiService";
+import Board from "../ui/Board";
+import useManager from "../../hooks/useManager";
+import { moveTask } from "../../services/ApiService";
 import { useDispatch } from "react-redux";
-import { initTask, localMoveTask, updateTask } from "../redux/slice/taskSlice";
-import { Input } from "./ui/Input";
-import { debouce } from "../lib/utils";
-import { SortType } from "../types/type";
-import { useToast } from "../hooks/useToast";
+import {
+  initTask,
+  localMoveTask,
+  updateTask,
+} from "../../redux/slice/taskSlice";
+import { Input } from "../ui/Input";
+import { debouce } from "../../lib/utils";
+import { SortType } from "../../types/type";
+import { useToast } from "../../hooks/useToast";
 
 type Props = {};
 
@@ -74,7 +78,7 @@ const Boards = (props: Props) => {
             onChange={(e) => setSort(e.target.value as SortType)}
           >
             <option value={SortType.CREATED_AT_ASC}>Created At Asc</option>
-            <option value={SortType.CREATED_AT_DESC}>Created At Desc</option>
+            <option value={SortType.CREATED_AT_DESC}>Recent</option>
             <option value={SortType.DUE_DATE_ASC}>Due Date Asc</option>
             <option value={SortType.DUE_DATE_DESC}>Due Date Desc</option>
           </select>

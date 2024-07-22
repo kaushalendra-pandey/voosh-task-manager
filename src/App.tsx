@@ -2,10 +2,9 @@ import Layout from "./components/auth/Layout";
 import "./App.css";
 import { DragDropContext } from "react-beautiful-dnd";
 
-import Boards from "./components/Boards";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+import Boards from "./components/pages/Boards";
 
-// react-beautiful-dnd onDragEnd function: result has type any
+// react-beautiful-dnd onDragEnd function: result has type any so use this type for reference
 /**
  * 
  * @param result {
@@ -31,13 +30,11 @@ const onDragEnd = (result: any) => {
 
 function App() {
   return (
-    
-      <Layout>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Boards />
-        </DragDropContext>
-      </Layout>
-    
+    <Layout>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Boards />
+      </DragDropContext>
+    </Layout>
   );
 }
 
